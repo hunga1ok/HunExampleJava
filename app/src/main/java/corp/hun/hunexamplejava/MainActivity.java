@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,26 +16,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        runSynchronization();
+        runTest();
+    }
+
+    void demoMultiThread() {
+
+        int n = 8; // Number of threads
+        for (int i = 0; i < n; i++) {
+            MultithreadingDemo object = new MultithreadingDemo();
+            object.start();
+        }
+    }
+
+    void demoMultiThread2() {
+        int n = 8; // Number of threads
+        for (int i = 0; i < n; i++) {
+            Thread object = new Thread(new MultiThreadingDemo2());
+            object.start();
+        }
     }
 
     void runSynchronization() {
         Sender send = new Sender();
-        ThreadedSend S1 = new ThreadedSend( " Hi " , send );
-        ThreadedSend S2 = new ThreadedSend( " Bye " , send );
+        ThreadedSend S1 = new ThreadedSend(" Hi ", send);
+        ThreadedSend S2 = new ThreadedSend(" Bye ", send);
 
         // Start two threads of ThreadedSend type
         S1.start();
         S2.start();
 
         // wait for threads to end
-        try
-        {
+        try {
             S1.join();
             S2.join();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Interrupted");
         } finally {
             System.out.println("Finish");
@@ -57,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
         pool.execute(r2);
         pool.execute(r3);
         pool.execute(r4);
-        pool.execute(r5);
+
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(r5);
 
         // pool shutdown ( Step 4)
         pool.shutdown();
