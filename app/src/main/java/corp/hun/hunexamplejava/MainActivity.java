@@ -16,11 +16,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Demo multi thread with create thread by extends Threads
+        demoMultiThread();
+
+        // Demo multi thread with create thread by implement Runnable
+        demoMultiThread2();
+
+        // Demo multi thread with synchronize
+        runSynchronization();
+
+        // Demo multi thread with create thread pool
+        runTest();
+
+        // Run thread pool with create by cache
         TestThread.runTest();
     }
 
     void demoMultiThread() {
-
         int n = 8; // Number of threads
         for (int i = 0; i < n; i++) {
             MultithreadingDemo object = new MultithreadingDemo();
